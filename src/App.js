@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react'
+import { Card } from './components/Card';
+import { getMovies } from './hooks/getMovies';
 
-function App() {
+export const App = () => {
+  const [movies, setMovies] = useState([]);
+  
+  useEffect(() => {
+    getMovies().then((data) => {
+      setMovies(data.results);
+    })
+  }, [])
+
+  console.log(movies);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <p>Star wars</p>
+      <div>
+        {
+          movies.map((movie) => (
+            <Card 
+              title={movie.title} 
+              openingCrawl={movie.opening_crawl}
+              characters={movie.characters}
+            />
+          ))
+        }
+      </div>
     </div>
-  );
+  )
 }
 
-export default App;
